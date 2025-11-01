@@ -41,6 +41,25 @@ brew "goneat"
 
 Run `brew bundle install` to set up your environment.
 
+## For Maintainers
+
+### Updating Formulas (Automated)
+
+We provide scripts to automate formula updates. After publishing a GitHub release:
+
+```bash
+# Quick update from GitHub release
+make update-goneat VERSION=0.3.4
+
+# Or for any app
+make update APP=myapp VERSION=1.0.0
+
+# Full workflow: update, audit, test, commit, and push
+make release APP=goneat VERSION=0.3.4
+```
+
+See [RELEASE_PROCESS.md](RELEASE_PROCESS.md) for complete documentation.
+
 ## Contributing
 
 We welcome contributions! To add a new formula or update an existing one:
@@ -54,13 +73,20 @@ We welcome contributions! To add a new formula or update an existing one:
 
 Please follow Homebrew's [formula style guide](https://docs.brew.sh/Formula-Cookbook) and ensure your changes pass CI.
 
-For OSS policies, contribution guidelines, and governance, please refer to the FulmenHQ README at ~/dev/fulmenhq/README.md, which links to 3 Leaps' open-source policies in the 3leaps organization.
-
 ## License
 
 This tap is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 Individual formulae may have their own licenses based on upstream projects.
+
+**Trademarks**: "Fulmen" and "3 Leaps" are trademarks of 3 Leaps, LLC. While code is open source, please use distinct names for derivative works to prevent confusion. See LICENSE for full guidelines.
+
+### OSS Policies (Organization-wide)
+
+- Authoritative policies repository: https://github.com/3leaps/oss-policies/
+- Code of Conduct: https://github.com/3leaps/oss-policies/blob/main/CODE_OF_CONDUCT.md
+- Security Policy: https://github.com/3leaps/oss-policies/blob/main/SECURITY.md
+- Contributing Guide: https://github.com/3leaps/oss-policies/blob/main/CONTRIBUTING.md
 
 ## Documentation
 
@@ -70,3 +96,22 @@ For Homebrew usage:
 - [Homebrew Documentation](https://docs.brew.sh)
 
 For FulmenHQ ecosystem details, visit [github.com/fulmenhq](https://github.com/fulmenhq).
+
+---
+
+---
+
+<div align="center">
+
+⚡ **Start Fast. Thrive on Scale.** ⚡
+
+_Official Homebrew tap for the FulmenHQ ecosystem_
+
+<br><br>
+
+**Built with ⚡ by the 3 Leaps team**
+**Part of the [Fulmen Ecosystem](https://fulmenhq.dev) - Lightning-fast enterprise development**
+
+**Signed Binaries** • **Automated Releases** • **Multi-Platform Support**
+
+</div>
