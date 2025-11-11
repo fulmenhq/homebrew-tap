@@ -1,4 +1,4 @@
-.PHONY: help update-goneat update audit test clean style precommit install-hooks
+.PHONY: help update-goneat update audit test clean clean-tap style precommit install-hooks
 
 # Default target
 help:
@@ -9,18 +9,18 @@ help:
 	@echo "  make update-goneat VERSION=0.3.3 LOCAL=1  Update goneat formula from local files"
 	@echo "  make update APP=goneat VERSION=0.3.3    Update any formula from GitHub"
 	@echo "  make style                              Check and fix code style issues"
-	@echo "  make precommit                          Run all pre-commit checks"
+	@echo "  make precommit                          Run all pre-commit checks (matches CI)"
 	@echo "  make install-hooks                      Install git pre-commit hook"
 	@echo "  make audit APP=goneat                   Audit a formula"
 	@echo "  make test APP=goneat                    Test install a formula"
 	@echo "  make clean APP=goneat                   Uninstall a formula"
+	@echo "  make clean-tap                          Clean tap state (simulates fresh clone)"
 	@echo ""
 	@echo "Examples:"
 	@echo "  make update-goneat VERSION=0.3.4"
 	@echo "  make update APP=myapp VERSION=1.0.0"
-	@echo "  make style"
 	@echo "  make precommit"
-	@echo "  make audit APP=goneat"
+	@echo "  make clean-tap && make precommit"
 
 # URL to formula update script (hosted in homebrew-tap-tools repo)
 UPDATE_SCRIPT_URL := https://raw.githubusercontent.com/fulmenhq/homebrew-tap-tools/main/update-formula.sh
@@ -88,13 +88,24 @@ endif
 	@echo ""
 	@echo "Success! Don't forget to uninstall: make clean APP=$(APP)"
 
-# Clean up - uninstall formula
-clean:
+# Clean up - uninstall formula and clean tap state
+clean: clean-tap
 ifndef APP
 	$(error APP is required. Usage: make clean APP=goneat)
 endif
 	@echo "Uninstalling $(APP)..."
 	brew uninstall $(APP) || true
+	@echo "✓ Clean complete"
+
+# Clean all tap state (simulates fresh clone)
+clean-tap:
+	@echo "Cleaning tap state..."
+	@echo "Untapping fulmenhq/tap if registered..."
+	@brew untap fulmenhq/tap 2>/dev/null || echo "Tap not registered"
+	@echo "✓ Tap state cleaned"
+	@echo ""
+	@echo "Repository is now in fresh clone state"
+	@echo "Run 'make precommit' to verify it works from scratch"
 
 # Check and fix code style issues
 style:
@@ -105,20 +116,27 @@ style:
 	@brew audit --strict goneat
 	@echo "✓ Style check passed"
 
-# Run all pre-commit checks
+# Run all pre-commit checks (replicates CI test-bot workflow exactly)
 precommit:
-	@echo "Running pre-commit checks..."
+	@echo "Running pre-commit checks (replicating CI test-bot workflow)..."
 	@echo ""
-	@$(MAKE) style
+	@echo "1. Running brew test-bot --only-cleanup-before..."
+	@brew test-bot --only-cleanup-before
 	@echo ""
-	@echo "Checking for unstaged changes..."
+	@echo "2. Running brew test-bot --only-setup (includes brew doctor, config, etc)..."
+	@brew test-bot --only-setup
+	@echo ""
+	@echo "3. Running brew test-bot --only-tap-syntax..."
+	@brew test-bot --only-tap-syntax
+	@echo ""
+	@echo "4. Checking for unstaged changes..."
 	@if [ -n "$$(git status --porcelain)" ]; then \
-		echo "✓ Working directory is clean or all changes are staged"; \
+		echo "✓ Working directory has changes (staged or unstaged)"; \
 	else \
 		echo "✓ No changes detected"; \
 	fi
 	@echo ""
-	@echo "✓ All pre-commit checks passed!"
+	@echo "✓ All pre-commit checks passed - matches CI workflow!"
 
 # Install git pre-commit hook
 install-hooks:

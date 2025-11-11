@@ -48,33 +48,28 @@ Run `brew bundle install` to set up your environment.
 Our repository uses specific code formatting standards enforced by CI:
 
 **Code Style Tools:**
-- **shfmt**: Shell script formatter (configured for 2 spaces via `.editorconfig`)
-- **RuboCop**: Ruby/Formula linter and formatter
-- **shellcheck**: Shell script static analysis
+- **RuboCop**: Ruby/Formula linter and formatter (enforced by Homebrew CI)
 
 **Setup:**
 ```bash
-# Install development tools (if not already installed)
-brew install shfmt shellcheck
-
 # Install git pre-commit hook (recommended)
 make install-hooks
 
 # Or manually check code style before committing
 make precommit
 
-# The style check will automatically fix most issues
+# Check formulas for issues
+make audit APP=goneat
 ```
 
 **Pre-commit Hook:**
 We provide a git pre-commit hook that automatically runs style checks before each commit:
-- Runs `make precommit` which includes shellcheck, shfmt, and brew audit
+- Runs `make precommit` which includes `brew audit` on formulas
 - Prevents commits if style checks fail
 - To bypass temporarily: `git commit --no-verify`
 
 **EditorConfig:**
 We use `.editorconfig` to maintain consistent formatting:
-- Shell scripts (`.sh`): 2 spaces
 - Ruby files (`.rb`): 2 spaces
 - Makefiles: tabs (required)
 - End of line: LF (Unix-style)
@@ -83,7 +78,7 @@ Most modern editors support EditorConfig automatically. If your editor doesn't, 
 
 ### Updating Formulas (Automated)
 
-We provide scripts to automate formula updates. After publishing a GitHub release:
+We provide automation to simplify formula updates. After publishing a GitHub release:
 
 ```bash
 # Quick update from GitHub release
@@ -95,6 +90,8 @@ make update APP=myapp VERSION=1.0.0
 # Full workflow: update, audit, test, commit, and push
 make release APP=goneat VERSION=0.3.4
 ```
+
+The automation downloads update scripts from [fulmenhq/homebrew-tap-tools](https://github.com/fulmenhq/homebrew-tap-tools) on-demand. Scripts are hosted externally to avoid CI conflicts with Homebrew's style checkers.
 
 See [RELEASE_PROCESS.md](RELEASE_PROCESS.md) for complete documentation.
 
