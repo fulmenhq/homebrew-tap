@@ -22,15 +22,19 @@ help:
 	@echo "  make precommit"
 	@echo "  make audit APP=goneat"
 
+# URL to formula update script (hosted in homebrew-tap-tools repo)
+UPDATE_SCRIPT_URL := https://raw.githubusercontent.com/fulmenhq/homebrew-tap-tools/main/update-formula.sh
+
 # Update goneat formula specifically
 update-goneat:
 ifndef VERSION
 	$(error VERSION is required. Usage: make update-goneat VERSION=0.3.3)
 endif
+	@echo "Downloading update script..."
 ifdef LOCAL
-	@./scripts/update-formula.sh goneat $(VERSION) --local
+	@curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- goneat $(VERSION) --local
 else
-	@./scripts/update-formula.sh goneat $(VERSION) --github
+	@curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- goneat $(VERSION) --github
 endif
 
 # Generic update target for any app
@@ -41,10 +45,11 @@ endif
 ifndef VERSION
 	$(error VERSION is required. Usage: make update APP=goneat VERSION=0.3.3)
 endif
+	@echo "Downloading update script..."
 ifdef LOCAL
-	@./scripts/update-formula.sh $(APP) $(VERSION) --local
+	@curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- $(APP) $(VERSION) --local
 else
-	@./scripts/update-formula.sh $(APP) $(VERSION) --github
+	@curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- $(APP) $(VERSION) --github
 endif
 
 # Audit a formula for issues
@@ -94,13 +99,6 @@ endif
 # Check and fix code style issues
 style:
 	@echo "Checking code style..."
-	@echo "Running shellcheck on shell scripts..."
-	@shellcheck scripts/*.sh 2>&1 | grep -v "SC1004\|SC1009\|SC1072\|SC1073" || true
-	@echo "Checking shell script formatting (2 spaces)..."
-	@if ! shfmt -i 2 -d scripts/*.sh > /dev/null 2>&1; then \
-		echo "Shell scripts need formatting. Run: shfmt -i 2 -w scripts/*.sh"; \
-		exit 1; \
-	fi
 	@echo "Running brew audit on formulas..."
 	@brew tap fulmenhq/tap $(CURDIR) 2>/dev/null || true
 	@cp Formula/*.rb $$(brew --repository fulmenhq/tap)/Formula/ 2>/dev/null || true
@@ -151,7 +149,7 @@ endif
 	@$(MAKE) audit APP=$(APP)
 	@echo ""
 	@echo "Review the changes:"
-	@git diff Formula/$(APP).rb scripts/ RELEASE_PROCESS.md
+	@git diff Formula/$(APP).rb RELEASE_PROCESS.md
 	@echo ""
 	@echo "Proceed with test installation? (Ctrl+C to cancel, Enter to continue)"
 	@read dummy
@@ -159,7 +157,7 @@ endif
 	@echo ""
 	@echo "Commit and push? (Ctrl+C to cancel, Enter to continue)"
 	@read dummy
-	git add Formula/$(APP).rb scripts/ RELEASE_PROCESS.md
+	git add Formula/$(APP).rb RELEASE_PROCESS.md
 	git commit -m "Update $(APP) to v$(VERSION)"
 	git push origin main
 	@echo ""

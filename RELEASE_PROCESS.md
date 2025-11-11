@@ -47,13 +47,15 @@ make release APP=goneat VERSION=0.3.4
 
 ### How the Automation Works
 
-The `scripts/update-formula.sh` script:
+The `make update` targets download the [update-formula.sh](https://github.com/fulmenhq/homebrew-tap-tools/blob/main/update-formula.sh) script from the `homebrew-tap-tools` repository and execute it. The script:
 1. Fetches SHA256SUMS from GitHub release (or local files with `--local`)
 2. Extracts checksums for all platform/architecture combinations
 3. Updates the formula file with new version and URLs
 4. Replaces SHA256 hashes for each platform
 
 This eliminates manual copy-paste errors and makes releases fast and reliable.
+
+**Note:** The script is hosted separately in [fulmenhq/homebrew-tap-tools](https://github.com/fulmenhq/homebrew-tap-tools) to avoid conflicts with Homebrew's CI style checkers.
 
 ## Manual Release Workflow
 
