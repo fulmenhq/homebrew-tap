@@ -1,4 +1,4 @@
-.PHONY: help update-goneat update audit test clean
+.PHONY: help update-goneat update audit test clean style precommit install-hooks
 
 # Default target
 help:
@@ -8,6 +8,9 @@ help:
 	@echo "  make update-goneat VERSION=0.3.3        Update goneat formula from GitHub"
 	@echo "  make update-goneat VERSION=0.3.3 LOCAL=1  Update goneat formula from local files"
 	@echo "  make update APP=goneat VERSION=0.3.3    Update any formula from GitHub"
+	@echo "  make style                              Check and fix code style issues"
+	@echo "  make precommit                          Run all pre-commit checks"
+	@echo "  make install-hooks                      Install git pre-commit hook"
 	@echo "  make audit APP=goneat                   Audit a formula"
 	@echo "  make test APP=goneat                    Test install a formula"
 	@echo "  make clean APP=goneat                   Uninstall a formula"
@@ -15,6 +18,8 @@ help:
 	@echo "Examples:"
 	@echo "  make update-goneat VERSION=0.3.4"
 	@echo "  make update APP=myapp VERSION=1.0.0"
+	@echo "  make style"
+	@echo "  make precommit"
 	@echo "  make audit APP=goneat"
 
 # Update goneat formula specifically
@@ -51,7 +56,8 @@ endif
 	@echo "Auditing $(APP) formula..."
 	@echo "Ensuring tap is set up..."
 	@brew tap fulmenhq/tap $(CURDIR) 2>/dev/null || true
-	@cp Formula/$(APP).rb $$(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/$(APP).rb
+	@mkdir -p $$(brew --repository fulmenhq/tap)/Formula
+	@cp Formula/$(APP).rb $$(brew --repository fulmenhq/tap)/Formula/$(APP).rb
 	brew audit --strict $(APP)
 
 # Test install a formula locally
@@ -63,7 +69,8 @@ endif
 	@echo "Testing $(APP) formula installation..."
 	@echo "Ensuring tap is set up..."
 	@brew tap fulmenhq/tap $(CURDIR) 2>/dev/null || true
-	@cp Formula/$(APP).rb $$(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/$(APP).rb
+	@mkdir -p $$(brew --repository fulmenhq/tap)/Formula
+	@cp Formula/$(APP).rb $$(brew --repository fulmenhq/tap)/Formula/$(APP).rb
 	@echo "This will install $(APP) locally. Press Ctrl+C to cancel or Enter to continue..."
 	@read dummy
 	brew install $(APP)
@@ -84,6 +91,49 @@ endif
 	@echo "Uninstalling $(APP)..."
 	brew uninstall $(APP) || true
 
+# Check and fix code style issues
+style:
+	@echo "Checking code style..."
+	@echo "Running shellcheck on shell scripts..."
+	@shellcheck scripts/*.sh 2>&1 | grep -v "SC1004\|SC1009\|SC1072\|SC1073" || true
+	@echo "Checking shell script formatting (2 spaces)..."
+	@if ! shfmt -i 2 -d scripts/*.sh > /dev/null 2>&1; then \
+		echo "Shell scripts need formatting. Run: shfmt -i 2 -w scripts/*.sh"; \
+		exit 1; \
+	fi
+	@echo "Running brew audit on formulas..."
+	@brew tap fulmenhq/tap $(CURDIR) 2>/dev/null || true
+	@cp Formula/*.rb $$(brew --repository fulmenhq/tap)/Formula/ 2>/dev/null || true
+	@brew audit --strict goneat
+	@echo "✓ Style check passed"
+
+# Run all pre-commit checks
+precommit:
+	@echo "Running pre-commit checks..."
+	@echo ""
+	@$(MAKE) style
+	@echo ""
+	@echo "Checking for unstaged changes..."
+	@if [ -n "$$(git status --porcelain)" ]; then \
+		echo "✓ Working directory is clean or all changes are staged"; \
+	else \
+		echo "✓ No changes detected"; \
+	fi
+	@echo ""
+	@echo "✓ All pre-commit checks passed!"
+
+# Install git pre-commit hook
+install-hooks:
+	@echo "Installing git pre-commit hook..."
+	@mkdir -p .git/hooks
+	@echo '#!/bin/sh' > .git/hooks/pre-commit
+	@echo 'make precommit' >> .git/hooks/pre-commit
+	@chmod +x .git/hooks/pre-commit
+	@echo "✓ Pre-commit hook installed"
+	@echo ""
+	@echo "The hook will run 'make precommit' before each commit."
+	@echo "To bypass the hook temporarily, use: git commit --no-verify"
+
 # Full workflow: update, audit, and test
 release:
 ifndef APP
@@ -96,10 +146,12 @@ endif
 	@echo ""
 	@$(MAKE) update APP=$(APP) VERSION=$(VERSION) $(if $(LOCAL),LOCAL=1,)
 	@echo ""
+	@$(MAKE) style
+	@echo ""
 	@$(MAKE) audit APP=$(APP)
 	@echo ""
 	@echo "Review the changes:"
-	@git diff Formula/$(APP).rb
+	@git diff Formula/$(APP).rb scripts/ RELEASE_PROCESS.md
 	@echo ""
 	@echo "Proceed with test installation? (Ctrl+C to cancel, Enter to continue)"
 	@read dummy
@@ -107,7 +159,7 @@ endif
 	@echo ""
 	@echo "Commit and push? (Ctrl+C to cancel, Enter to continue)"
 	@read dummy
-	git add Formula/$(APP).rb
+	git add Formula/$(APP).rb scripts/ RELEASE_PROCESS.md
 	git commit -m "Update $(APP) to v$(VERSION)"
 	git push origin main
 	@echo ""

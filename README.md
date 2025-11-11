@@ -43,6 +43,44 @@ Run `brew bundle install` to set up your environment.
 
 ## For Maintainers
 
+### Development Environment
+
+Our repository uses specific code formatting standards enforced by CI:
+
+**Code Style Tools:**
+- **shfmt**: Shell script formatter (configured for 2 spaces via `.editorconfig`)
+- **RuboCop**: Ruby/Formula linter and formatter
+- **shellcheck**: Shell script static analysis
+
+**Setup:**
+```bash
+# Install development tools (if not already installed)
+brew install shfmt shellcheck
+
+# Install git pre-commit hook (recommended)
+make install-hooks
+
+# Or manually check code style before committing
+make precommit
+
+# The style check will automatically fix most issues
+```
+
+**Pre-commit Hook:**
+We provide a git pre-commit hook that automatically runs style checks before each commit:
+- Runs `make precommit` which includes shellcheck, shfmt, and brew audit
+- Prevents commits if style checks fail
+- To bypass temporarily: `git commit --no-verify`
+
+**EditorConfig:**
+We use `.editorconfig` to maintain consistent formatting:
+- Shell scripts (`.sh`): 2 spaces
+- Ruby files (`.rb`): 2 spaces
+- Makefiles: tabs (required)
+- End of line: LF (Unix-style)
+
+Most modern editors support EditorConfig automatically. If your editor doesn't, install the EditorConfig plugin.
+
 ### Updating Formulas (Automated)
 
 We provide scripts to automate formula updates. After publishing a GitHub release:

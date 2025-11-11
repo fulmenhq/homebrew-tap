@@ -1,0 +1,3 @@
+# shfmt cannot parse embedded AWK scripts
+# This script contains a complex awk heredoc that confuses the parser
+scripts/update-formula.sh

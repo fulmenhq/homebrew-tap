@@ -39,10 +39,11 @@ make release APP=goneat VERSION=0.3.4
 
 - `make update-goneat VERSION=x.x.x` - Update goneat from GitHub
 - `make update APP=name VERSION=x.x.x` - Update any formula from GitHub
+- `make style` - Check and fix code style issues (formulas and shell scripts)
 - `make audit APP=name` - Run brew audit on a formula
 - `make test APP=name` - Test install a formula locally
 - `make clean APP=name` - Uninstall a formula
-- `make release APP=name VERSION=x.x.x` - Full release workflow (update → audit → test → commit → push)
+- `make release APP=name VERSION=x.x.x` - Full release workflow (update → style → audit → test → commit → push)
 
 ### How the Automation Works
 
@@ -127,40 +128,40 @@ Navigate to the homebrew-tap repository and create/update the formula in `Formul
 ```ruby
 class AppName < Formula
   desc "Description of the application"
-  homepage "https://github.com/fulmenhq/{app_name}"
-  version "{VERSION}"
+  homepage "https://github.com/fulmenhq/myapp"
+  version "1.0.0"
   license "MIT"
 
   on_macos do
     on_intel do
-      url "https://github.com/fulmenhq/{app_name}/releases/download/v{VERSION}/{app_name}_v{VERSION}_darwin_amd64.tar.gz"
-      sha256 "{SHA256_HASH}"
+      url "https://github.com/fulmenhq/myapp/releases/download/v1.0.0/myapp_v1.0.0_darwin_amd64.tar.gz"
+      sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/{app_name}/releases/download/v{VERSION}/{app_name}_v{VERSION}_darwin_arm64.tar.gz"
-      sha256 "{SHA256_HASH}"
+      url "https://github.com/fulmenhq/myapp/releases/download/v1.0.0/myapp_v1.0.0_darwin_arm64.tar.gz"
+      sha256 "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/fulmenhq/{app_name}/releases/download/v{VERSION}/{app_name}_v{VERSION}_linux_amd64.tar.gz"
-      sha256 "{SHA256_HASH}"
+      url "https://github.com/fulmenhq/myapp/releases/download/v1.0.0/myapp_v1.0.0_linux_amd64.tar.gz"
+      sha256 "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/{app_name}/releases/download/v{VERSION}/{app_name}_v{VERSION}_linux_arm64.tar.gz"
-      sha256 "{SHA256_HASH}"
+      url "https://github.com/fulmenhq/myapp/releases/download/v1.0.0/myapp_v1.0.0_linux_arm64.tar.gz"
+      sha256 "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a"
     end
   end
 
   def install
-    bin.install "{app_name}"
+    bin.install "myapp"
   end
 
   test do
-    system "#{bin}/{app_name}", "--version"
+    system bin/"myapp", "--version"
   end
 end
 ```
@@ -196,7 +197,10 @@ Before committing, test the formula. **Note:** Modern Homebrew (v4.6+) requires 
 brew tap fulmenhq/tap $(pwd)
 
 # Copy your updated formula to the tapped location for testing
-cp Formula/{app_name}.rb $(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/{app_name}.rb
+cp Formula/{app_name}.rb $(brew --repository fulmenhq/tap)/Formula/{app_name}.rb
+
+# Check and fix code style issues (IMPORTANT: run before committing)
+brew style --fix fulmenhq/tap
 
 # Audit the formula for common issues (use formula name, not path)
 brew audit --strict {app_name}
@@ -214,7 +218,7 @@ brew test {app_name}
 brew uninstall {app_name}
 ```
 
-**Important:** The `make audit` and `make test` targets handle the tap setup and formula copying automatically.
+**Important:** The `make style`, `make audit`, and `make test` targets handle the tap setup and formula copying automatically.
 
 ### Step 7: Commit and Push Formula
 
@@ -252,13 +256,15 @@ cd ../homebrew-tap
 make update-goneat VERSION=0.3.5
 
 # Test the formula (automated targets handle tap setup)
+make style
 make audit APP=goneat
 make test APP=goneat
 make clean APP=goneat
 
 # Or test manually
 brew tap fulmenhq/tap $(pwd)
-cp Formula/goneat.rb $(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/goneat.rb
+cp Formula/goneat.rb $(brew --repository fulmenhq/tap)/Formula/goneat.rb
+brew style --fix fulmenhq/tap
 brew audit --strict goneat
 brew install goneat
 goneat --version
@@ -278,7 +284,7 @@ git push origin main
 
 **Solution:** Modern Homebrew (v4.6+) no longer accepts file paths for audit or install commands. You must:
 1. Tap the repository locally: `brew tap fulmenhq/tap $(pwd)`
-2. Copy your formula to the tap: `cp Formula/app.rb $(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/app.rb`
+2. Copy your formula to the tap: `cp Formula/app.rb $(brew --repository fulmenhq/tap)/Formula/app.rb`
 3. Use the formula name: `brew audit --strict app`
 
 The `make audit` and `make test` targets handle this automatically.
@@ -292,8 +298,14 @@ If you get a SHA256 mismatch error, the checksums in your formula don't match th
 ### Binary Not Found After Installation
 Ensure the tarball contains the binary at the root level or adjust the `install` method:
 ```ruby
-def install
-  bin.install "bin/{app_name}"  # if binary is in a bin/ subdirectory
+class MyApp < Formula
+  desc "My application description"
+  homepage "https://github.com/fulmenhq/myapp"
+  # ... other code ...
+
+  def install
+    bin.install "bin/myapp" # if binary is in a bin/ subdirectory
+  end
 end
 ```
 
