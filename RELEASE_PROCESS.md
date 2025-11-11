@@ -189,14 +189,20 @@ curl -sL https://github.com/fulmenhq/{app_name}/releases/download/v{VERSION}/SHA
 
 ### Step 6: Test the Formula Locally
 
-Before committing, test the formula:
+Before committing, test the formula. **Note:** Modern Homebrew (v4.6+) requires formulas to be in taps and no longer accepts file paths.
 
 ```bash
-# Audit the formula for common issues
-brew audit --strict Formula/{app_name}.rb
+# Ensure the tap is set up (if not already)
+brew tap fulmenhq/tap $(pwd)
+
+# Copy your updated formula to the tapped location for testing
+cp Formula/{app_name}.rb $(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/{app_name}.rb
+
+# Audit the formula for common issues (use formula name, not path)
+brew audit --strict {app_name}
 
 # Install locally to test
-brew install --build-from-source Formula/{app_name}.rb
+brew install {app_name}
 
 # Test the installed binary
 {app_name} --version
@@ -207,6 +213,8 @@ brew test {app_name}
 # Uninstall after testing
 brew uninstall {app_name}
 ```
+
+**Important:** The `make audit` and `make test` targets handle the tap setup and formula copying automatically.
 
 ### Step 7: Commit and Push Formula
 
@@ -232,29 +240,48 @@ If this is the first public release of the tap:
 ```bash
 # In the goneat repository, after building and signing
 cd dist/release
-gh release upload v0.3.3 --repo fulmenhq/goneat *.tar.gz *.tar.gz.asc *.zip *.zip.asc SHA256SUMS SHA256SUMS.asc
+gh release upload v0.3.5 --repo fulmenhq/goneat *.tar.gz *.tar.gz.asc *.zip *.zip.asc SHA256SUMS SHA256SUMS.asc
 
 # Get the checksums
 cat SHA256SUMS
 
 # In the homebrew-tap repository
 cd ../homebrew-tap
-# Edit Formula/goneat.rb with the new version and SHA256 hashes
 
-# Test the formula
-brew audit --strict Formula/goneat.rb
-brew install --build-from-source Formula/goneat.rb
+# Use the automated update script
+make update-goneat VERSION=0.3.5
+
+# Test the formula (automated targets handle tap setup)
+make audit APP=goneat
+make test APP=goneat
+make clean APP=goneat
+
+# Or test manually
+brew tap fulmenhq/tap $(pwd)
+cp Formula/goneat.rb $(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/goneat.rb
+brew audit --strict goneat
+brew install goneat
 goneat --version
 brew test goneat
 brew uninstall goneat
 
 # Commit and push
 git add Formula/goneat.rb
-git commit -m "Update goneat to v0.3.3"
+git commit -m "Update goneat to v0.3.5"
 git push origin main
 ```
 
 ## Troubleshooting
+
+### Brew Audit Rejects File Paths
+**Error:** `Error: Calling brew audit [path ...] is disabled! Use brew audit [name ...] instead.`
+
+**Solution:** Modern Homebrew (v4.6+) no longer accepts file paths for audit or install commands. You must:
+1. Tap the repository locally: `brew tap fulmenhq/tap $(pwd)`
+2. Copy your formula to the tap: `cp Formula/app.rb $(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/app.rb`
+3. Use the formula name: `brew audit --strict app`
+
+The `make audit` and `make test` targets handle this automatically.
 
 ### SHA256 Mismatch
 If you get a SHA256 mismatch error, the checksums in your formula don't match the actual file checksums. Verify:

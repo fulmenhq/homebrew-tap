@@ -43,22 +43,30 @@ else
 endif
 
 # Audit a formula for issues
+# Note: Modern Homebrew requires formulas to be in taps
 audit:
 ifndef APP
 	$(error APP is required. Usage: make audit APP=goneat)
 endif
 	@echo "Auditing $(APP) formula..."
-	brew audit --strict Formula/$(APP).rb
+	@echo "Ensuring tap is set up..."
+	@brew tap fulmenhq/tap $(CURDIR) 2>/dev/null || true
+	@cp Formula/$(APP).rb $$(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/$(APP).rb
+	brew audit --strict $(APP)
 
 # Test install a formula locally
+# Note: Modern Homebrew requires formulas to be in taps
 test:
 ifndef APP
 	$(error APP is required. Usage: make test APP=goneat)
 endif
 	@echo "Testing $(APP) formula installation..."
+	@echo "Ensuring tap is set up..."
+	@brew tap fulmenhq/tap $(CURDIR) 2>/dev/null || true
+	@cp Formula/$(APP).rb $$(brew --repository)/Library/Taps/fulmenhq/homebrew-tap/Formula/$(APP).rb
 	@echo "This will install $(APP) locally. Press Ctrl+C to cancel or Enter to continue..."
 	@read dummy
-	brew install --build-from-source Formula/$(APP).rb
+	brew install $(APP)
 	@echo ""
 	@echo "Testing installed binary..."
 	$(APP) --version
