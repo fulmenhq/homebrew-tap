@@ -33,8 +33,14 @@ jobs:
 
       - name: Clean Homebrew core tap
         run: |
-          git -C "$(brew --repository homebrew/core)" reset --hard HEAD
-          git -C "$(brew --repository homebrew/core)" clean -fd
+          CORE_TAP="$(brew --repository homebrew/core)"
+          if [ -d "$CORE_TAP" ]; then
+            echo "Cleaning homebrew-core at $CORE_TAP"
+            git -C "$CORE_TAP" reset --hard HEAD
+            git -C "$CORE_TAP" clean -fd
+          else
+            echo "homebrew-core not present at $CORE_TAP (fresh environment)"
+          fi
 
       - run: brew test-bot --only-cleanup-before
 
