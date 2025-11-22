@@ -7,6 +7,7 @@ Cache/
 # Logs and temp files
 *.log
 *.tmp
+steps_output.txt
 .DS_Store
 
 # OS generated files

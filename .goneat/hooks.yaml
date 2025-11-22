@@ -1,0 +1,17 @@
+version: "1.0.0"
+hooks:
+  pre-commit:
+    - command: "make"
+      args: ["precommit"]
+      priority: 10
+      timeout: "2m"
+  pre-push:
+    - command: "make"
+      args: ["prepush"]
+      priority: 10
+      timeout: "5m"
+
+optimization:
+  only_changed_files: false # We want make to run on everything
+  content_source: working   # We want to check working directory state
+  parallel: auto

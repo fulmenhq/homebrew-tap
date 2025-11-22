@@ -116,9 +116,32 @@ style:
 	@brew audit --strict goneat
 	@echo "✓ Style check passed"
 
-# Run all pre-commit checks (replicates CI test-bot workflow exactly)
+# Bootstrap environment
+bootstrap:
+	@echo "Checking for goneat..."
+	@if ! command -v goneat >/dev/null 2>&1; then \
+		echo "goneat not found. Installing via Homebrew..."; \
+		brew install fulmenhq/tap/goneat; \
+	else \
+		echo "goneat is already installed."; \
+	fi
+	@echo "✓ Bootstrap complete"
+
+# Run fast checks (formatting, linting, hygiene)
 precommit:
-	@echo "Running pre-commit checks (replicating CI test-bot workflow)..."
+	@command -v goneat >/dev/null 2>&1 || { echo "❌ goneat not found. Run 'make bootstrap'"; exit 1; }
+	@echo "Running pre-commit checks..."
+	@echo "1. Running goneat assess (formatting, maturity, tools)..."
+	@goneat assess --categories format,tools,lint,maturity --fail-on high
+	@echo ""
+	@echo "2. Running brew style (Ruby linting)..."
+	@brew style Formula/
+	@echo ""
+	@echo "✓ Pre-commit checks passed"
+
+# Run full CI-like checks
+prepush: precommit
+	@echo "Running pre-push checks (replicating CI test-bot workflow)..."
 	@echo ""
 	@echo "1. Running brew test-bot --only-cleanup-before..."
 	@brew test-bot --only-cleanup-before
@@ -136,19 +159,14 @@ precommit:
 		echo "✓ No changes detected"; \
 	fi
 	@echo ""
-	@echo "✓ All pre-commit checks passed - matches CI workflow!"
+	@echo "✓ All pre-push checks passed - matches CI workflow!"
 
 # Install git pre-commit hook
 install-hooks:
-	@echo "Installing git pre-commit hook..."
-	@mkdir -p .git/hooks
-	@echo '#!/bin/sh' > .git/hooks/pre-commit
-	@echo 'make precommit' >> .git/hooks/pre-commit
-	@chmod +x .git/hooks/pre-commit
-	@echo "✓ Pre-commit hook installed"
-	@echo ""
-	@echo "The hook will run 'make precommit' before each commit."
-	@echo "To bypass the hook temporarily, use: git commit --no-verify"
+	@echo "Installing git hooks via goneat..."
+	@goneat hooks generate
+	@goneat hooks install
+	@echo "✓ Git hooks installed"
 
 # Full workflow: update, audit, and test
 release:

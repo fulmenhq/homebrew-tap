@@ -1,0 +1,88 @@
+# 3 Leaps Ecosystem Feature Request Template
+# Source: https://github.com/3leaps/oss-policies
+# Projects should customize: name, description, module/component dropdown, and status notes
+# Last updated: 2025-11-03
+
+name: Feature Request
+description: Suggest a new feature or enhancement
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! Please provide details below to help us understand your request.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: I'm frustrated when... / It would be helpful if...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see
+      placeholder: I would like the project to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered any alternative solutions or workarounds?
+      placeholder: I've tried... / Another approach could be...
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority (Your Perspective)
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would improve my workflow
+        - High - Blocking my use case
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Describe how you would use this feature in your application
+      placeholder: In my project, I need to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Code Examples or API Design
+      description: If applicable, show how you'd like the feature to work
+      placeholder: |
+        # Example usage
+        import { newFeature } from 'project'
+
+        result = newFeature({ ... })
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Would you be willing to help implement this feature?
+      options:
+        - label: I'm willing to submit a PR for this feature
+        - label: I'm willing to help test this feature
+        - label: I can provide additional use cases or requirements
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or references
+      placeholder: Related projects, links to similar features in other libraries, etc.

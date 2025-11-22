@@ -1,0 +1,16 @@
+# 3 Leaps Ecosystem Issue Template Configuration
+# Source: https://github.com/3leaps/oss-policies
+# Projects MUST customize: All contact_links URLs to match their specific repository
+# Last updated: 2025-11-03
+
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/fulmenhq/homebrew-tap
+    about: Read the project documentation and examples
+  - name: 🔒 Security Vulnerability
+    url: https://github.com/fulmenhq/homebrew-tap/blob/main/SECURITY.md
+    about: Report security vulnerabilities privately via security@3leaps.net
+  - name: 💬 GitHub Discussions
+    url: https://github.com/fulmenhq/homebrew-tap/discussions
+    about: Ask questions and discuss with the community

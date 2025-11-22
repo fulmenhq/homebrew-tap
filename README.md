@@ -130,6 +130,8 @@ For Homebrew usage:
 - `man brew`
 - [Homebrew Documentation](https://docs.brew.sh)
 
+For details on our CI/CD infrastructure and runner design, see [CI/CD Overview](docs/cicd-overview.md).
+
 For FulmenHQ ecosystem details, visit [github.com/fulmenhq](https://github.com/fulmenhq).
 
 ---

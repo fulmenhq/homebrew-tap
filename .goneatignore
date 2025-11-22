@@ -1,0 +1,29 @@
+# .goneatignore
+# Exclude files from goneat assessment
+
+# Version Control
+.git/
+.github/
+
+# Build Artifacts & Dependencies
+vendor/
+bin/
+dist/
+build/
+.bundle/
+
+# Homebrew
+*.bottle*
+downloads/
+Cache/
+
+# Logs & Temp
+*.log
+*.tmp
+.DS_Store
+
+# Documentation
+docs/licenses/
+
+# Planning
+.plans/
