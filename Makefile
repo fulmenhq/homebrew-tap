@@ -24,18 +24,20 @@ help:
 
 # URL to formula update script (hosted in homebrew-tap-tools repo)
 UPDATE_SCRIPT_URL := https://raw.githubusercontent.com/fulmenhq/homebrew-tap-tools/main/update-formula.sh
+LOCAL_UPDATE_SCRIPT := ../homebrew-tap-tools/update-formula.sh
 
 # Update goneat formula specifically
 update-goneat:
 ifndef VERSION
 	$(error VERSION is required. Usage: make update-goneat VERSION=0.3.3)
 endif
-	@echo "Downloading update script..."
-ifdef LOCAL
-	@curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- goneat $(VERSION) --local
-else
-	@curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- goneat $(VERSION) --github
-endif
+	@if [ -f "$(LOCAL_UPDATE_SCRIPT)" ]; then \
+		echo "Using local update script from ../homebrew-tap-tools..."; \
+		$(LOCAL_UPDATE_SCRIPT) goneat $(VERSION) $(if $(LOCAL),--local,--github); \
+	else \
+		echo "Downloading update script from GitHub..."; \
+		curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- goneat $(VERSION) $(if $(LOCAL),--local,--github); \
+	fi
 
 # Generic update target for any app
 update:
@@ -45,12 +47,13 @@ endif
 ifndef VERSION
 	$(error VERSION is required. Usage: make update APP=goneat VERSION=0.3.3)
 endif
-	@echo "Downloading update script..."
-ifdef LOCAL
-	@curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- $(APP) $(VERSION) --local
-else
-	@curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- $(APP) $(VERSION) --github
-endif
+	@if [ -f "$(LOCAL_UPDATE_SCRIPT)" ]; then \
+		echo "Using local update script from ../homebrew-tap-tools..."; \
+		$(LOCAL_UPDATE_SCRIPT) $(APP) $(VERSION) $(if $(LOCAL),--local,--github); \
+	else \
+		echo "Downloading update script from GitHub..."; \
+		curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- $(APP) $(VERSION) $(if $(LOCAL),--local,--github); \
+	fi
 
 # Audit a formula for issues
 # Note: Modern Homebrew requires formulas to be in taps
