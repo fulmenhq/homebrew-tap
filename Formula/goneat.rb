@@ -1,30 +1,30 @@
 class Goneat < Formula
   desc "Go developer tool for neat code and smooth workflows"
   homepage "https://github.com/fulmenhq/goneat"
-  version "0.3.18"
+  version "0.3.19"
   license "MIT"
 
   on_macos do
     on_intel do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.3.18/goneat_v0.3.18_darwin_amd64.tar.gz"
-      sha256 "1866eb4050edb15e0de066841dfcc63cbd91c10a2d5627943642317a9781f2da"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.3.19/goneat_v0.3.19_darwin_amd64.tar.gz"
+      sha256 "026ddec36e3d1254b53c666e849f30165c844f7cc079c32525f34a48c4c2b570"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.3.18/goneat_v0.3.18_darwin_arm64.tar.gz"
-      sha256 "c34f4c60f9876339e752d74664a11aa8f29bedb8ea7a65e6b3b423164ebaf6e1"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.3.19/goneat_v0.3.19_darwin_arm64.tar.gz"
+      sha256 "37c679d6cc081c2a1ac8ed6b764467003edde270ed756a691cd1427fdc4617c2"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.3.18/goneat_v0.3.18_linux_amd64.tar.gz"
-      sha256 "24dba432aa7b200369db5f7ea32b1de48942549c28538a7ec15c8345313530ac"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.3.19/goneat_v0.3.19_linux_amd64.tar.gz"
+      sha256 "32d450565ace8416431f6dcc14a51a325720e4dec30a1fab267a0b7384a86808"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.3.18/goneat_v0.3.18_linux_arm64.tar.gz"
-      sha256 "66362c43710abe60449e69579de8fef9f7544bece6fc71aa2dce6f4af197682d"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.3.19/goneat_v0.3.19_linux_arm64.tar.gz"
+      sha256 "da2ed12c9798dced3d5e830dc8fa940cea5764d075373fd1ece3ebdc2f26d670"
     end
   end
 
