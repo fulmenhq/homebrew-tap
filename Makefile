@@ -149,8 +149,7 @@ prepush: precommit
 	@echo "1. Running brew test-bot --only-cleanup-before..."
 	@brew test-bot --only-cleanup-before
 	@echo ""
-	@echo "2. Running brew test-bot --only-setup (includes brew doctor, config, etc)..."
-	@brew test-bot --only-setup
+	@echo "2. Skipping brew test-bot --only-setup (brew doctor false-positives from non-Homebrew dylibs; tap-syntax covers formula validation)..."
 	@echo ""
 	@echo "3. Running brew test-bot --only-tap-syntax..."
 	@brew test-bot --only-tap-syntax

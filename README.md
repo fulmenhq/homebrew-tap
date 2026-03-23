@@ -7,15 +7,17 @@ This is the official Homebrew tap for the FulmenHQ ecosystem, providing easy ins
 To get started, tap the repository and install available formulae:
 
 ```bash
-brew tap fulmenhq/homebrew-tap
+brew tap fulmenhq/tap
 brew install goneat  # Install the GoNeat tool
 ```
 
 Alternatively, install a specific formula directly:
 
 ```bash
-brew install fulmenhq/homebrew-tap/goneat
+brew install fulmenhq/tap/goneat
 ```
+
+The GitHub repository is `fulmenhq/homebrew-tap`, but Homebrew's canonical tap name is `fulmenhq/tap`.
 
 For a full bootstrap of the Fulmen development environment, use our Brewfile (to be added as more tools are included):
 
@@ -26,6 +28,7 @@ brew bundle --file=https://raw.githubusercontent.com/fulmenhq/homebrew-tap/main/
 ## Available Formulae
 
 - **goneat**: A Go developer tool for neat code and smooth workflows. [GitHub](https://github.com/fulmenhq/goneat)
+- **refbolt**: Container-first CLI for archiving web documentation into date-versioned Markdown trees. [GitHub](https://github.com/fulmenhq/refbolt)
 
 More tools will be added as the ecosystem grows. Check the [Formula/ directory](https://github.com/fulmenhq/homebrew-tap/tree/main/Formula) for the latest.
 
@@ -34,7 +37,7 @@ More tools will be added as the ecosystem grows. Check the [Formula/ directory](
 Create a `Brewfile` in your project to install all Fulmen tools at once (starting with goneat):
 
 ```
-tap "fulmenhq/homebrew-tap"
+tap "fulmenhq/tap"
 brew "goneat"
 # Add more as needed
 ```
@@ -103,7 +106,7 @@ We welcome contributions! To add a new formula or update an existing one:
 2. Create a feature branch (`git checkout -b feature/new-tool`).
 3. Add or edit the formula in `Formula/`.
 4. Run `brew audit --strict` to check for issues.
-5. Test with `brew install --build-from-source fulmenhq/homebrew-tap/<formula>`.
+5. Test with `brew install --build-from-source fulmenhq/tap/<formula>`.
 6. Commit and open a Pull Request.
 
 Please follow Homebrew's [formula style guide](https://docs.brew.sh/Formula-Cookbook) and ensure your changes pass CI.
