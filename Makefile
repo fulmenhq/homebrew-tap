@@ -1,4 +1,4 @@
-.PHONY: help update-goneat update audit test clean clean-tap style precommit install-hooks
+.PHONY: help update-goneat update-dimlox update audit test clean clean-tap style precommit install-hooks
 
 # Default target
 help:
@@ -6,6 +6,7 @@ help:
 	@echo ""
 	@echo "Usage:"
 	@echo "  make update-goneat VERSION=0.3.3        Update goneat formula from GitHub"
+	@echo "  make update-dimlox VERSION=0.1.1        Update dimlox formula from GitHub"
 	@echo "  make update-goneat VERSION=0.3.3 LOCAL=1  Update goneat formula from local files"
 	@echo "  make update APP=goneat VERSION=0.3.3    Update any formula from GitHub"
 	@echo "  make style                              Check and fix code style issues"
@@ -18,6 +19,7 @@ help:
 	@echo ""
 	@echo "Examples:"
 	@echo "  make update-goneat VERSION=0.3.4"
+	@echo "  make update-dimlox VERSION=0.1.1"
 	@echo "  make update APP=myapp VERSION=1.0.0"
 	@echo "  make precommit"
 	@echo "  make clean-tap && make precommit"
@@ -37,6 +39,18 @@ endif
 	else \
 		echo "Downloading update script from GitHub..."; \
 		curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- goneat $(VERSION) $(if $(LOCAL),--local,--github); \
+	fi
+
+update-dimlox:
+ifndef VERSION
+	$(error VERSION is required. Usage: make update-dimlox VERSION=0.1.1)
+endif
+	@if [ -f "$(LOCAL_UPDATE_SCRIPT)" ]; then \
+		echo "Using local update script from ../homebrew-tap-tools..."; \
+		$(LOCAL_UPDATE_SCRIPT) dimlox $(VERSION) $(if $(LOCAL),--local,--github); \
+	else \
+		echo "Downloading update script from GitHub..."; \
+		curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- dimlox $(VERSION) $(if $(LOCAL),--local,--github); \
 	fi
 
 # Generic update target for any app
