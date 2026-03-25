@@ -2,7 +2,7 @@ class Refbolt < Formula
   desc "CLI for archiving web documentation into date-versioned Markdown trees"
   homepage "https://github.com/fulmenhq/refbolt"
   version "0.0.1"
-  license "MIT AND Apache-2.0"
+  license any_of: ["MIT", "Apache-2.0"]
 
   on_macos do
     on_intel do

@@ -298,16 +298,12 @@ If you get a SHA256 mismatch error, the checksums in your formula don't match th
 3. The file wasn't modified after signing
 
 ### Binary Not Found After Installation
-Ensure the tarball contains the binary at the root level or adjust the `install` method:
-```ruby
-class MyApp < Formula
-  desc "My application description"
-  homepage "https://github.com/fulmenhq/myapp"
-  # ... other code ...
+Ensure the tarball contains the binary at the root level or adjust the formula
+`install` method, for example by installing from a nested `bin/` directory:
 
-  def install
-    bin.install "bin/myapp" # if binary is in a bin/ subdirectory
-  end
+```text
+def install
+  bin.install "bin/myapp"
 end
 ```
 
