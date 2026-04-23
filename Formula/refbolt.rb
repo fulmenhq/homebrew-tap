@@ -1,30 +1,30 @@
 class Refbolt < Formula
   desc "CLI for archiving web documentation into date-versioned Markdown trees"
   homepage "https://github.com/fulmenhq/refbolt"
-  version "0.0.3"
+  version "0.0.4"
   license any_of: ["MIT", "Apache-2.0"]
 
   on_macos do
     on_intel do
-      url "https://github.com/fulmenhq/refbolt/releases/download/v0.0.3/refbolt-darwin-amd64"
-      sha256 "dfbf6486ad58bae71631bd1cb457cd05214e436c3d0ce2b63a71cb9e79dfb44f"
+      url "https://github.com/fulmenhq/refbolt/releases/download/v0.0.4/refbolt-darwin-amd64"
+      sha256 "9f56d3af0f11db23216585f25e03f5a793ad9b80047c8168822c12bbd035bf01"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/refbolt/releases/download/v0.0.3/refbolt-darwin-arm64"
-      sha256 "a0cee15001f79717fda984c0af09a24123e2b8df79d9dae16b9103e6dcb0525d"
+      url "https://github.com/fulmenhq/refbolt/releases/download/v0.0.4/refbolt-darwin-arm64"
+      sha256 "78d234ee0109bffb8e026e3e256bc8163bfe43219be7132051b412aba0e893d2"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/fulmenhq/refbolt/releases/download/v0.0.3/refbolt-linux-amd64"
-      sha256 "50734fa95622babfb8b4c33616ba7a57bd8316b8147d11afa865226e1288ffd8"
+      url "https://github.com/fulmenhq/refbolt/releases/download/v0.0.4/refbolt-linux-amd64"
+      sha256 "cedb58604346803981fcfb3c2bee8eec83cb8cb7c7b2e85b4e6db4c60cc9fd4e"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/refbolt/releases/download/v0.0.3/refbolt-linux-arm64"
-      sha256 "2c2974c7b06782f443bc1c9ebc761ca45a28ac1903da1f81736b5f364d3d97de"
+      url "https://github.com/fulmenhq/refbolt/releases/download/v0.0.4/refbolt-linux-arm64"
+      sha256 "bc8f287849efd546ee665a25d3b5aeeed6bcd62605c2a60effd9d5951504a410"
     end
   end
 
