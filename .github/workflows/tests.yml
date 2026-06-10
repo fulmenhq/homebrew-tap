@@ -10,7 +10,10 @@ jobs:
   test-bot:
     strategy:
       matrix:
-        os: [ ubuntu-22.04, macos-15-intel, macos-latest ]
+        # macos-15-intel retired 2026-06 (org Intel-Mac retirement; sumpter is
+        # the first arm-only formula). Intel macOS binaries still shipped by
+        # goneat/dimlox/refbolt are no longer exercised in CI.
+        os: [ ubuntu-24.04, macos-latest ]
     runs-on: ${{ matrix.os }}
     permissions:
       actions: read
@@ -30,6 +33,11 @@ jobs:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
           key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
           restore-keys: ${{ matrix.os }}-rubygems-
+
+      # Homebrew now gates third-party taps behind tap trust; an untrusted tap
+      # fails `brew doctor` inside `test-bot --only-setup`.
+      - name: Trust this tap
+        run: brew trust fulmenhq/tap
 
       - name: Clean Homebrew core tap
         run: |

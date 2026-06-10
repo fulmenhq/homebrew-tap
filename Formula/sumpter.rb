@@ -4,7 +4,14 @@ class Sumpter < Formula
   version "0.1.10"
   license "Apache-2.0"
 
+  # No darwin-amd64 binary as of v0.1.10 (Intel Mac retired). The head spec
+  # gives unsupported platforms a buildable fallback and keeps
+  # `brew readall --os=all --arch=all` valid tap-wide.
+  head "https://github.com/fulmenhq/sumpter.git", branch: "main"
+
   on_macos do
+    depends_on arch: :arm64
+
     on_arm do
       url "https://github.com/fulmenhq/sumpter/releases/download/v0.1.10/sumpter-darwin-arm64"
       sha256 "fabefa26d9a14f44f87ce827b4957d5e0fd9df70d778d4b1173fb2e5b5013e6f"
