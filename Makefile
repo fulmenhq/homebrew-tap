@@ -1,4 +1,4 @@
-.PHONY: help update-goneat update-dimlox update audit test clean clean-tap style precommit install-hooks
+.PHONY: help update-goneat update-dimlox update-sumpter update audit test clean clean-tap style precommit install-hooks
 
 # Default target
 help:
@@ -51,6 +51,18 @@ endif
 	else \
 		echo "Downloading update script from GitHub..."; \
 		curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- dimlox $(VERSION) $(if $(LOCAL),--local,--github); \
+	fi
+
+update-sumpter:
+ifndef VERSION
+	$(error VERSION is required. Usage: make update-sumpter VERSION=0.1.10)
+endif
+	@if [ -f "$(LOCAL_UPDATE_SCRIPT)" ]; then \
+		echo "Using local update script from ../homebrew-tap-tools..."; \
+		$(LOCAL_UPDATE_SCRIPT) sumpter $(VERSION) $(if $(LOCAL),--local,--github); \
+	else \
+		echo "Downloading update script from GitHub..."; \
+		curl -sSfL $(UPDATE_SCRIPT_URL) | bash -s -- sumpter $(VERSION) $(if $(LOCAL),--local,--github); \
 	fi
 
 # Generic update target for any app
