@@ -1,5 +1,7 @@
 # FulmenHQ Homebrew Tap
 
+[![brew test-bot](https://github.com/fulmenhq/homebrew-tap/actions/workflows/tests.yml/badge.svg)](https://github.com/fulmenhq/homebrew-tap/actions/workflows/tests.yml)
+
 This is the official Homebrew tap for the FulmenHQ ecosystem, providing easy installation of CLI tools and utilities developed by FulmenHQ. The tap focuses on Go-based tools to bootstrap development environments for Fulmen projects.
 
 ## Quick Start
@@ -28,9 +30,13 @@ brew bundle --file=https://raw.githubusercontent.com/fulmenhq/homebrew-tap/main/
 ## Available Formulae
 
 - **goneat**: A Go developer tool for neat code and smooth workflows. [GitHub](https://github.com/fulmenhq/goneat)
-- **refbolt**: Container-first CLI for archiving web documentation into date-versioned Markdown trees. [GitHub](https://github.com/fulmenhq/refbolt)
+- **refbolt**: CLI for archiving web documentation into date-versioned Markdown trees. [GitHub](https://github.com/fulmenhq/refbolt)
+- **dimlox**: Moving and shaping structured data across the clouds. [GitHub](https://github.com/fulmenhq/dimlox)
+- **sumpter**: Streaming XML extraction engine for large, variant-heavy inputs. [GitHub](https://github.com/fulmenhq/sumpter)
 
 More tools will be added as the ecosystem grows. Check the [Formula/ directory](https://github.com/fulmenhq/homebrew-tap/tree/main/Formula) for the latest.
+
+> **Platform support:** most formulae ship macOS (Intel + Apple Silicon) and Linux (amd64 + arm64) binaries. As of v0.1.10, **sumpter is Apple Silicon only on macOS** (Intel Mac retired) plus Linux amd64/arm64; installing it on an Intel Mac reports an unsupported-architecture error.
 
 ## Brewfile for Bootstrap
 
