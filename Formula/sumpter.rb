@@ -1,7 +1,7 @@
 class Sumpter < Formula
   desc "Streaming XML extraction engine for large, variant-heavy inputs"
   homepage "https://github.com/fulmenhq/sumpter"
-  version "0.2.0"
+  version "0.2.1"
   license "Apache-2.0"
 
   # No darwin-amd64 binary as of v0.1.10 (Intel Mac retired). The head spec
@@ -13,20 +13,20 @@ class Sumpter < Formula
     depends_on arch: :arm64
 
     on_arm do
-      url "https://github.com/fulmenhq/sumpter/releases/download/v0.2.0/sumpter-darwin-arm64"
-      sha256 "1e65260e9265c87479dcd0dccae3793bac8f6d23ad7abe58ccfc25660b13580c"
+      url "https://github.com/fulmenhq/sumpter/releases/download/v0.2.1/sumpter-darwin-arm64"
+      sha256 "0c8480467617545b60d2b8bc2d3400bb1b8626775a58f974ea8f09e44312e555"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/fulmenhq/sumpter/releases/download/v0.2.0/sumpter-linux-amd64"
-      sha256 "14250abd7ce6ed323f42416a47884cc6d515c06ab977e91cfd9f6cc948b6fbff"
+      url "https://github.com/fulmenhq/sumpter/releases/download/v0.2.1/sumpter-linux-amd64"
+      sha256 "ef86251b291c364f720c7dc10fa386b2d6f0ae6e498925b3dd829615d18dc4f5"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/sumpter/releases/download/v0.2.0/sumpter-linux-arm64"
-      sha256 "54cd6b083d337c162a5dd0dff5f8ab9f399b3a7e7ff35cf39875c58555faa82c"
+      url "https://github.com/fulmenhq/sumpter/releases/download/v0.2.1/sumpter-linux-arm64"
+      sha256 "36201c0085f570f0c6166c47822533a6225f487f7a9f01d2a4c89aa991b516a8"
     end
   end
 
