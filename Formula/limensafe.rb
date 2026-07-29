@@ -1,7 +1,6 @@
 class Limensafe < Formula
   desc "Confidential Context Leakage (CCL) detector for repos and workflows"
   homepage "https://github.com/fulmenhq/limensafe"
-  version "0.2.0"
   license "MIT"
 
   on_macos do
