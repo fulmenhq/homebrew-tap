@@ -1,7 +1,6 @@
 class Dimlox < Formula
   desc "Moving and shaping structured data across the clouds"
   homepage "https://github.com/fulmenhq/dimlox"
-  version "0.1.2"
   license "MIT"
 
   on_macos do
