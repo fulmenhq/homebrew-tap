@@ -1,7 +1,6 @@
 class Goneat < Formula
   desc "Go developer tool for neat code and smooth workflows"
   homepage "https://github.com/fulmenhq/goneat"
-  version "0.5.15"
   license "MIT"
 
   on_macos do
