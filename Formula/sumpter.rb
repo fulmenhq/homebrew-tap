@@ -1,7 +1,6 @@
 class Sumpter < Formula
   desc "Streaming XML extraction engine for large, variant-heavy inputs"
   homepage "https://github.com/fulmenhq/sumpter"
-  version "0.3.3"
   license "Apache-2.0"
 
   # No darwin-amd64 binary as of v0.1.10 (Intel Mac retired). The head spec
