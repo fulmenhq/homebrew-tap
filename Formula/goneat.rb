@@ -5,25 +5,25 @@ class Goneat < Formula
 
   on_macos do
     on_intel do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.5.15/goneat_v0.5.15_darwin_amd64.tar.gz"
-      sha256 "4642cad30d9c8fb1f973ad3a4d7ee9d59535b94673e9e6d13c6785f44a94451a"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.5.16/goneat_v0.5.16_darwin_amd64.tar.gz"
+      sha256 "da3a7a6c90279bfbbdd0421818e1417d8530e85f610ba76f916ee1252af83050"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.5.15/goneat_v0.5.15_darwin_arm64.tar.gz"
-      sha256 "4aa29cf3fb72f6f73a339a8cd9801d8ee2c57aea78b82c1a10777f8e72d1c640"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.5.16/goneat_v0.5.16_darwin_arm64.tar.gz"
+      sha256 "f5c67dcc4a88ae1506ee7fd67b147972b7449250a0cab9345199799ba73a20ae"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.5.15/goneat_v0.5.15_linux_amd64.tar.gz"
-      sha256 "888ca950c875336e3a572231db03447397b0a08dedfb780c11eb8c6766630dc6"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.5.16/goneat_v0.5.16_linux_amd64.tar.gz"
+      sha256 "c876a550730a99e203ea83231c9beae55d90e3c75bab184f6e795b82bb246c36"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.5.15/goneat_v0.5.15_linux_arm64.tar.gz"
-      sha256 "2046ee3d81a805db1c86137640b682cce4d8f6e9c4a8e2764136d35a8e7bae3b"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.5.16/goneat_v0.5.16_linux_arm64.tar.gz"
+      sha256 "0cafea9f91f1bcaa4eb7610159f35657f5dda8248c2d678b1c28d57ed88d468f"
     end
   end
 
