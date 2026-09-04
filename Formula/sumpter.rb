@@ -12,20 +12,20 @@ class Sumpter < Formula
     depends_on arch: :arm64
 
     on_arm do
-      url "https://github.com/fulmenhq/sumpter/releases/download/v0.3.3/sumpter-darwin-arm64"
-      sha256 "81800a5ebe05038ee29163e04ba88dac4ee8ab3333933983081d34bd2281e6c8"
+      url "https://github.com/fulmenhq/sumpter/releases/download/v0.3.4/sumpter-darwin-arm64"
+      sha256 "19011533217905a3177539894f0e4b3426e4337a961cf3a6c88500d88a8b39a3"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/fulmenhq/sumpter/releases/download/v0.3.3/sumpter-linux-amd64"
-      sha256 "fb68315633a36f0b57b73e5611effd77fa89758842fd20076b03a647add99366"
+      url "https://github.com/fulmenhq/sumpter/releases/download/v0.3.4/sumpter-linux-amd64"
+      sha256 "ce55ffe786432992f52b4451604e18baa9b70a1d62d942ee944943928142bc78"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/sumpter/releases/download/v0.3.3/sumpter-linux-arm64"
-      sha256 "d768a6b70e4911f551f3e319278370001af36314eb242039c9d937d0d790a8b9"
+      url "https://github.com/fulmenhq/sumpter/releases/download/v0.3.4/sumpter-linux-arm64"
+      sha256 "2b6c8719d04689e0df60b515903bb31eb61d02902831fb1e91744958a8395df3"
     end
   end
 
