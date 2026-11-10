@@ -11,20 +11,20 @@ class Goneat < Formula
     depends_on arch: :arm64
 
     on_arm do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.6.7/goneat_v0.6.7_darwin_arm64.tar.gz"
-      sha256 "e6834c6a8c589503e956804d791cc6a503f720af87e761df1f8a314b2d85a90a"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.6.8/goneat_v0.6.8_darwin_arm64.tar.gz"
+      sha256 "6e37ca3cd3146f324ebfb4fe08d47bc9b26a00c6657814f67ab2f93d6cc0c811"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.6.7/goneat_v0.6.7_linux_amd64.tar.gz"
-      sha256 "f4985b3036c947d0f575e0d4bbb2b0902796796702225a85bf866eaccf053b75"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.6.8/goneat_v0.6.8_linux_amd64.tar.gz"
+      sha256 "105259d5d6bbd7e24f096f39f54c1ac7638d5cab884e2cec5fe4f05295ac3d34"
     end
 
     on_arm do
-      url "https://github.com/fulmenhq/goneat/releases/download/v0.6.7/goneat_v0.6.7_linux_arm64.tar.gz"
-      sha256 "1c25cdf8b4c6a6e745a83a48f51e812914c9e856a2bb783a3a5870d2142beb40"
+      url "https://github.com/fulmenhq/goneat/releases/download/v0.6.8/goneat_v0.6.8_linux_arm64.tar.gz"
+      sha256 "ddfc46881935248d06292ffa4ccd26e3ac3b4a891102f43760906d7834a381fe"
     end
   end
 
